@@ -11,7 +11,7 @@ const client = new pg.Client({
 });
 
 const person = process.argv.slice(2)[0];
-console.log(person)
+console.log("Searching for: " + person)
 
 client.connect((err) => {
   if (err) {
@@ -21,7 +21,11 @@ client.connect((err) => {
     if (err) {
       return console.error("error running query", err);
     }
-    console.log(result.rows); //output: 1
+    var personInfo = result.rows;
+    for (var i = 0; i < personInfo.length; i++){
+      var data = personInfo[i]; //output: 1
+      console.log( i+1 + ':' + data.first_name + ' ' + data.last_name + ', born: ' + data.birthdate.toLocaleDateString())
+    }
     client.end();
   });
 });
